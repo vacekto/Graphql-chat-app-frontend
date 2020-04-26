@@ -1,0 +1,16 @@
+.buttons{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.form{
+  width: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
