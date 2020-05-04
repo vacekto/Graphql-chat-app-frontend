@@ -1,4 +1,7 @@
+@import "variables";
+
 .DirectMessages{
-  border: 1px solid turquoise;
-  flex: 5;
+  flex: 1;
+  border-bottom: 1px solid $colored-font;
+  width: $left-chat-width + 10px;
 }

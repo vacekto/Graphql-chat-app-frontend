@@ -1,6 +1,73 @@
+@import "variables";
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap');
+
+.channelWrapper{
+  height:28px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &:hover{
+    background-color:#360d37;
+  }
+  .channel{
+    color: #d1cad1;
+    font-weight: 500;
+    font-size: 14px;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.selected{
+  background-color: #0c66a0;
+  width: $left-chat-width + 10px;
+  z-index: 1000000;
+  .channel{
+    color: #fff;
+    width: $left-chat-width + 10px;
+  }
+  &:hover{
+    background-color:#0c66a0;
+  }
+}
+
 .ManagementContainer{
-  flex: 1;
-  border: 1px solid violet;
+  width: $left-chat-width;
+  display: flex;
+  flex-direction: column;
+  background-color: $background-left;
+  color: #d1cad1;
+  font-weight: 500;
+  .lists{
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    .header{  
+      margin: 10px 15px;
+      font-size: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: context-menu;
+      .iconWreapper{
+        border-radius: 3px;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover{
+          background-color: rgb(91, 29, 94);
+          cursor: pointer;
+        }
+        .icon{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
 }

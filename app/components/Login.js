@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 
 import { Button, Form, FormGroup, Label, Input } from "reactstrap"
 
-const Login = ({ login, history, data }) => {
+const Login = ({ login, history }) => {
   const [userName, setUserName] = useState("")
   const [passport, setPass] = useState("")
 
@@ -21,9 +21,10 @@ const Login = ({ login, history, data }) => {
       .then(res => res.json())
       .then(res => {
         if (!res.errors) {
+          
           login(res.data)
           history.push("/chat")
-        } else console.log(res.errors[0].message)
+        } else throw new Error(res.errors)
       })
   }
 
@@ -31,7 +32,6 @@ const Login = ({ login, history, data }) => {
     fetchRegister(userName, passport)
       .then(res => res.json())
       .then(res => {
-        console.log(res)
       })
   }
 

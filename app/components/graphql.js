@@ -15,6 +15,7 @@ module.exports = {
             _id
             userName
             token
+            friends
             directChannels{
               channelType
               channelName
@@ -29,6 +30,19 @@ module.exports = {
             rooms{
               _id
               channelName
+              channelType
+              creator
+              messages{
+                text
+                sender
+                date
+                _id
+              }
+            }
+            selectedChannel{
+              _id
+              channelName
+              channelType
               messages{
                 text
                 sender
@@ -70,7 +84,7 @@ module.exports = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         query: `query{
-          directChannel(searchingUser:"${searchingUser}", searchedUser:"${searchedUser}"){
+          fetchDirectChannel(searchingUser:"${searchingUser}", searchedUser:"${searchedUser}"){
             _id
             members
             channelName
@@ -107,6 +121,70 @@ module.exports = {
             date
             channelId
             channelType
+          }
+        }
+      `})
+    })
+  },
+  createRoom: (channelName, creator) => {
+    return fetch(process.env.GRAPHQL_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `
+        mutation{
+          createRoom(
+            channelName: "${channelName}"
+            creator: "${creator}"
+          ){
+            _id
+            channelName
+            members
+            channelType
+            creator
+            messages{
+              text
+              sender
+              date
+            }
+          }
+        }
+      `})
+    })
+  },
+  leaveRoom: (userName, roomId) => {
+    return fetch(process.env.GRAPHQL_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `
+        mutation{
+          leaveRoom(
+            roomId:"${roomId}"
+            userName: "${userName}"
+          )
+        }
+      `})
+    })
+  },
+  fetchRoom: (roomId) => {
+    return fetch(process.env.GRAPHQL_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        query: `query{
+          fetchRoom(roomId:"${roomId}"){
+            _id
+            members
+            channelName
+            channelType
+            creator
+            messages{
+              _id
+              text
+              sender
+              date
+            }
           }
         }
       `

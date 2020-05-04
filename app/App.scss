@@ -1,2 +1,28 @@
+@import "./components/variables.scss";
+
 .App{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar-track
+{
+    background: transparent;
+}
+
+::-webkit-scrollbar
+{
+    margin: 50px;
+    width: 9px;
+    background-color: $background-left;
+    background: transparent;
+    
+}
+
+::-webkit-scrollbar-thumb
+{
+    border-radius: 12px;
+    -webkit-box-shadow: blue;
+    background-color: #99789a;
 }

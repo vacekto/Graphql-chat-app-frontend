@@ -3,8 +3,11 @@ import "./DirectMessages.scss"
 import { connect } from 'react-redux'
 import { fetchDirectChannel } from "./graphql.js"
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input } from 'reactstrap';
+import UserAutocomplete from "./inputWithAutocomplete/FindUser.js"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
-const DirectMessages = ({ directMessages, selectChannel, userName, addChannel }) => {
+const DirectMessages = ({ directMessages, selectChannel, userName, addChannel, selectedChannelId }) => {
   if (!directMessages) directMessages = []
   const [input, setInput] = useState("")
   const [modal, setModal] = useState(false);
@@ -15,27 +18,48 @@ const DirectMessages = ({ directMessages, selectChannel, userName, addChannel })
       .then(res => res.json())
       .then(res => {
         if (res.errors) throw new Error(res.errors[0].message)
-        addChannel(res.data.directChannel)
-      }).catch(err => console.log(err))
+        addChannel(res.data.fetchDirectChannel)
+      }).catch(err => console.error(err))
   }
   return (
     <div className="DirectMessages">
-      DirectMessages:
-      <Button color="primary" onClick={toggle} size="sm">find user</Button>
+      <div className="header">
+        <span>Direct Messages</span>
+        <div className="iconWreapper" onClick={toggle}>
+          <div className="icon">
+            <FontAwesomeIcon className="icon" icon={faPlus} />
+          </div>
+        </div>
+      </div>
+      <div className="list">
+        {directMessages.map(channel => {
+          return (
+            <div
+              key={channel._id}
+              className={"channelWrapper" +
+                (selectedChannelId === channel._id ?
+                  " selected" : "")}
+              onClick={() => { selectChannel(channel._id) }}
+            >
+              <div
+                key={channel._id}
+                className="channel"
+              >
+                {channel.channelName}
+              </div>
+            </div>
+          )
+        })}
+      </div>
       <Modal isOpen={modal} toggle={toggle} >
         <ModalBody>
-          <Input type="text" id="exampleEmail" placeholder="username.." onChange={(e) => { setInput(e.target.value) }} />
+          <UserAutocomplete setInput={setInput} input={input} />
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={handleClick}>find</Button>{' '}
           <Button color="secondary" onClick={toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>
-      {directMessages.map(channel => {
-        return <div key={Math.random()} onClick={() => { selectChannel(channel._id) }}>
-          {channel.channelName}
-        </div>
-      })}
     </div>
   )
 }
@@ -43,14 +67,15 @@ const DirectMessages = ({ directMessages, selectChannel, userName, addChannel })
 const mapStateToProps = (state) => {
   return {
     directMessages: state.directChannels,
-    userName: state.userName
+    userName: state.userName,
+    selectedChannelId: state.selectedChannel._id
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     selectChannel: (_id) => { dispatch({ type: "SELECT_CHANNEL", channelType: "directChannel", _id }) },
-    addChannel: (directChannel) => { dispatch({ type: "ADD_CHANNEL", directChannel }) }
+    addChannel: channel => { dispatch({ type: "SAVE_CHANNEL", channel }) }
   }
 }
 

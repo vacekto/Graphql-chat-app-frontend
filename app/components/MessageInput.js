@@ -13,7 +13,6 @@ const MessageInput = ({ userName, channelId, channelType, updateMessages }) => {
       .then(res => {
         if (!res.errors) {
           updateMessages(res.data.sendMessage)
-          console.log(res)
         } else console.log(res.errors[0])
       })
   }

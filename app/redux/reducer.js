@@ -26,22 +26,25 @@ const reducer = (state = initState, action) => {
         })
       return clone(state)
     case ("NEW_MESSAGE"):
-      let updatedChannel = state.directChannels.find(channel => {
+      const channelType = action.message.channelType + "s"
+      const updatedChannel = state[channelType].find(channel => {
         return channel._id === action.message.channelId
       })
       updatedChannel.messages.push(action.message)
-      console.log(updatedChannel, state.selectedChannel, updatedChannel._id === state.selectedChannel._id)
       if (updatedChannel._id === state.selectedChannel._id) {
-        
         state.selectedChannel.messages.push(action.message)
       }
       return clone(state)
-    case ("ADD_CHANNEL"):
+    case ("SAVE_CHANNEL"):
       console.log(action)
-      const existingChannel = state.directChannels.find(channel => {
-        return channel._id === action.directChannel._id
+      const existingChannel = state[action.channel.channelType + "s"].find(channel => {
+        return channel._id === action.channel._id
       })
-      if (!existingChannel) state.directChannels.push(action.directChannel)
+      if (!existingChannel) state[action.channel.channelType + "s"].push(action.channel)
+      return clone(state)
+    case ("LEAVE_ROOM"):
+      state.rooms = state.rooms.filter(room => room._id !== action.roomId)
+      state.selectedChannel = state.rooms.find(room => room.channelName === "Public")
       return clone(state)
     default:
       return state

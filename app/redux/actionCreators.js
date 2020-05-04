@@ -9,11 +9,9 @@ export const saveMessage = message => {
         fetchDirectChannel(state.userName, message.sender)
           .then(res => res.json())
           .then(res => {
-            dispatch({ type: "ADD_CHANNEL", directChannel: res.data.directChannel })
+            dispatch({ type: "SAVE_CHANNEL", channel: res.data.fetchDirectChannel })
           })
-      } else {
-        dispatch({ type: "NEW_MESSAGE", message })
-      }
-    }
+      } else dispatch({ type: "NEW_MESSAGE", message })
+    } else dispatch({ type: "NEW_MESSAGE", message })
   }
 }

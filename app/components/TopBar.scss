@@ -1,4 +1,9 @@
+@import "variables";
+
 .TopBar{
-  height: 80px;
-  border: 1px solid black;
+  height: $top-line-height;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(190, 190, 190);
 }

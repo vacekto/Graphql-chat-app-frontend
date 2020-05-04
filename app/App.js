@@ -16,9 +16,10 @@ import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import thunk from 'redux-thunk';
+import test from "./components/inputWithAutocomplete/AddToRoom.js"
 
 const wsurl = "ws://localhost:3001/graphql"
-const httpurl = "http://localhost:300"
+const httpurl = "http://localhost:3001"
 
 const store = createStore(
   reducer,
@@ -60,6 +61,7 @@ class App extends React.Component {
             <div className="App">
               <Route path="/" exact component={Login} />
               <Route exact path="/chat" component={Chat} />
+              <Route exact path="/test" component={test} />
             </div>
           </BrowserRouter>
         </Provider>

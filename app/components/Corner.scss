@@ -1,4 +1,6 @@
+@import "variables";
+
 .Corner{
-  border: 1px solid blue;
-  height: 80px;
+  border-bottom: 1px solid $colored-font;
+  min-height: $top-line-height;
 }
